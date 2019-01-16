@@ -6,56 +6,55 @@ class App extends Component {
     state = {
         persons: [
             {
+                id: 1,
                 name:"Bob",
                 age:"99"
             },
             {
+                id: 2,
                 name:"Job",
                 age:"19"
             },
             {
+                id: 3,
                 name:"Mob",
                 age:"9"
             }
-        ]
+        ],
+        showPersons: false
     }
 
-    switchNameHandler = (newName) => {
-        this.setState({
-            persons: [
-                {
-                    name:newName,
-                    age:"1119"
-                },
-                {
-                    name:"Job",
-                    age:"19"
-                },
-                {
-                    name:"Mobydick",
-                    age:"9"
-                }
-            ]
+    switchNameHandler = (event, id) => {
+        // Find the person's index
+        const personIndex = this.state.persons.findIndex(p => {
+            return p.id === id;
         });
+
+        // Copy the person
+        const thisPerson = {
+            ...this.state.persons[personIndex]
+        }
+
+        // Update the person's name
+        thisPerson.name = event.target.value;
+
+        // Sets the new persons array
+        const newPersons = [...this.state.persons];
+        newPersons[personIndex] = thisPerson;
+        this.setState({persons: newPersons});
     }
 
-    nameChangeHandler = (event) => {
-        this.setState({
-            persons: [
-                {
-                    name:"Bob",
-                    age:"1119"
-                },
-                {
-                    name: event.target.value,
-                    age:"19"
-                },
-                {
-                    name:"Mob",
-                    age:"9"
-                }
-            ]
-        });
+    deletePersonsHandler = (personIndex) => {
+        // const newPersons = this.state.persons.slice();
+        const newPersons = [...this.state.persons];
+        newPersons.splice(personIndex,1);
+        this.setState({persons: newPersons});
+
+    }
+
+    togglePersonsHandler = () => {
+        const doesShow = this.state.showPersons;
+        this.setState({showPersons: !doesShow});
     }
 
     render() {
@@ -67,6 +66,27 @@ class App extends Component {
             cursor: 'pointer'
         };
 
+        let persons = null;
+
+        if (this.state.showPersons) {
+            persons = (
+                <div>
+                    {this.state.persons.map((person, index) => {
+                        return (
+                            <Person
+                                name={person.name}
+                                age={person.age}
+                                // click={() => this.deletePersonsHandler(index)}
+                                key={person.id}
+                                changed={(event) => this.switchNameHandler(event, person.id)} >
+                                <h5>My hobbies</h5>
+                            </Person>
+                        );
+                    })}
+                </div>
+            );
+        }
+
         return (
             <div className="App">
                 <header className="App-header">
@@ -76,27 +96,14 @@ class App extends Component {
                     This is a test.
                 </p>
                 <button
-                    onClick={() => this.switchNameHandler('Max1')}
+                    onClick={this.togglePersonsHandler}
                     style={style} >
                     Switchy time!
                 </button>
-                <Person
-                    name={this.state.persons[0].name}
-                    age={this.state.persons[0].age}
-                    click={this.switchNameHandler.bind(this, 'Max2')} />
-                <Person
-                    name={this.state.persons[1].name}
-                    age={this.state.persons[1].age}
-                    change={this.nameChangeHandler} >
-                    <h5>My hobbies</h5>
-                </Person>
-                <Person
-                    name={this.state.persons[2].name}
-                    age={this.state.persons[2].age}/>
+
+                {persons}
             </div>
         );
-
-        // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Udemy App'));
     }
 }
 

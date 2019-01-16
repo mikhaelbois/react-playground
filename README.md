@@ -1,2 +1,2 @@
 # react-playground
-Diverse React projects
+React Playground
