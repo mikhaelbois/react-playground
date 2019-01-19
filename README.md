@@ -1,2 +1,2 @@
-# react-playground
-React Playground
+# udemy-react
+Udemy - React Course
