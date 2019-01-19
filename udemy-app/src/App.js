@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 // https://www.npmjs.com/package/radium
 // import Radium, { StyleRoot } from 'radium';
@@ -80,6 +81,7 @@ class App extends Component {
                 <div>
                     {this.state.persons.map((person, index) => {
                         return (
+                            <ErrorBoundary>
                             <Person
                                 name={person.name}
                                 age={person.age}
@@ -88,6 +90,7 @@ class App extends Component {
                                 changed={(event) => this.switchNameHandler(event, person.id)} >
                                 <h5>My hobbies</h5>
                             </Person>
+                            </ErrorBoundary>
                         );
                     })}
                 </div>
