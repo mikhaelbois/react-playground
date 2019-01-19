@@ -3,5 +3,13 @@
 	border-bottom: 3px solid #999;
 	padding: 1em;
 	margin: 1em auto 0;
-	max-width: 600px;
+	max-width: 400px;
+}
+
+@media (min-width: 960px) {
+	.Person {
+		padding: 1.5em;
+		margin: 1.5em auto 0;
+		max-width: 600px;
+	}
 }

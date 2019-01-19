@@ -6,6 +6,34 @@
   font-weight: bold;
 }
 
+/* Accessible via CSS module - classes.colored */
 .colored {
   color: #be0fce;
+}
+
+.App button {
+  background-color: #333;
+  border: none;
+  color: #fff;
+  padding: 1em;
+  cursor: pointer;
+}
+
+.App button:hover {
+  background-color: #000;
+}
+
+.App button.colored {
+  background-color: #be0fce;
+  color: #000;
+}
+
+.App button.colored:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Accessible globally by class name - colored */
+:global .colored {
+  color: #0fce85;
 }

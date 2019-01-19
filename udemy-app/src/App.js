@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
 
 // https://www.npmjs.com/package/radium
@@ -61,33 +61,20 @@ class App extends Component {
     }
 
     render() {
-        let style = {
-            backgroundColor: '#333',
-            border: 'none',
-            color: '#fff',
-            padding: '1em',
-            cursor: 'pointer'
-            // ':hover': {
-            //     backgroundColor: '#000'
-            // }
-        };
         let persons = null;
-        const classes = [];
+        const assignedClasses = [];
+        let btnClass = '';
 
         if (this.state.persons.length > 2) {
-            classes.push('bold');
+            assignedClasses.push(classes.red);
+            assignedClasses.push('colored');
         };
 
         if (this.state.showPersons) {
-            style = {
-                ...style,
-                backgroundColor: '#be0fce'
-                // ':hover': {
-                //     color: '#000'
-                // }
-            };
 
-            classes.push('colored');
+            assignedClasses.push(classes.colored);
+
+            btnClass = classes.colored;
 
             persons = (
                 <div>
@@ -108,26 +95,21 @@ class App extends Component {
         }
 
         return (
-            // <StyleRoot>
-                <div className="App">
-                    <header className="App-header">
-                        <h1>Udemy App</h1>
-                    </header>
-                    <p className={classes.join(' ')}>
-                        This is a test.
-                    </p>
-                    <button
-                        onClick={this.togglePersonsHandler}
-                        style={style} >
-                        Switchy time!
-                    </button>
+            <div className={classes.App}>
+                <header className="App-header">
+                    <h1>Udemy App</h1>
+                </header>
+                <p className={assignedClasses.join(' ')}>
+                    This is a test.
+                </p>
+                <button className={btnClass} onClick={this.togglePersonsHandler}>
+                    Switchy time!
+                </button>
 
-                    {persons}
-                </div>
-            // </StyleRoot>
+                {persons}
+            </div>
         );
     }
 }
 
-// export default Radium(App);
 export default App;
