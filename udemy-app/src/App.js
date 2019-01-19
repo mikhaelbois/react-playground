@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
+// https://www.npmjs.com/package/radium
+// import Radium, { StyleRoot } from 'radium';
+
 class App extends Component {
     state = {
         persons: [
@@ -58,17 +61,34 @@ class App extends Component {
     }
 
     render() {
-        const style = {
+        let style = {
             backgroundColor: '#333',
             border: 'none',
             color: '#fff',
             padding: '1em',
             cursor: 'pointer'
+            // ':hover': {
+            //     backgroundColor: '#000'
+            // }
+        };
+        let persons = null;
+        const classes = [];
+
+        if (this.state.persons.length > 2) {
+            classes.push('bold');
         };
 
-        let persons = null;
-
         if (this.state.showPersons) {
+            style = {
+                ...style,
+                backgroundColor: '#be0fce'
+                // ':hover': {
+                //     color: '#000'
+                // }
+            };
+
+            classes.push('colored');
+
             persons = (
                 <div>
                     {this.state.persons.map((person, index) => {
@@ -88,23 +108,26 @@ class App extends Component {
         }
 
         return (
-            <div className="App">
-                <header className="App-header">
-                    <h1>Udemy App</h1>
-                </header>
-                <p>
-                    This is a test.
-                </p>
-                <button
-                    onClick={this.togglePersonsHandler}
-                    style={style} >
-                    Switchy time!
-                </button>
+            // <StyleRoot>
+                <div className="App">
+                    <header className="App-header">
+                        <h1>Udemy App</h1>
+                    </header>
+                    <p className={classes.join(' ')}>
+                        This is a test.
+                    </p>
+                    <button
+                        onClick={this.togglePersonsHandler}
+                        style={style} >
+                        Switchy time!
+                    </button>
 
-                {persons}
-            </div>
+                    {persons}
+                </div>
+            // </StyleRoot>
         );
     }
 }
 
+// export default Radium(App);
 export default App;
