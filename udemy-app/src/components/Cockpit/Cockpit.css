@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .bold {
   font-weight: bold;
 }
@@ -11,29 +7,25 @@
   color: #be0fce;
 }
 
-.App button {
+.CockpitButton {
   background-color: #333;
   border: none;
   color: #fff;
   padding: 1em;
+  margin: 1em;
   cursor: pointer;
 }
 
-.App button:hover {
+.CockpitButton:hover {
   background-color: #000;
 }
 
-.App button.colored {
+.CockpitButton.colored {
   background-color: #be0fce;
   color: #000;
 }
 
-.App button.colored:hover {
+.CockpitButton.colored:hover {
   background-color: #000;
   color: #fff;
-}
-
-/* Accessible globally by class name - colored */
-:global .colored {
-  color: #0fce85;
 }

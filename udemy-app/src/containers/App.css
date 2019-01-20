@@ -1,0 +1,8 @@
+.App {
+  text-align: center;
+}
+
+/* Accessible globally by class name - colored */
+:global .colored {
+  color: #0fce85;
+}
