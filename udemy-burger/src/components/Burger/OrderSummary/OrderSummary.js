@@ -22,16 +22,18 @@ const orderSummary = (props) =>  {
                 {ingredientSummary}
             </ul>
             <h3>Get it for only <span style={{ color: '#5C9210' }}>${props.price.toFixed(2)}</span>?</h3>
-            <Button
-                click={props.cancel}
-                btnClass="Danger">
-                Nah, thanks!
-            </Button>
-            <Button
-                click={props.continue}
-                btnClass="Success">
-                Yes, please!
-            </Button>
+            <div>
+                <Button
+                    click={props.cancel}
+                    btnClass="Danger">
+                    Nah, thanks!
+                </Button>
+                <Button
+                    click={props.continue}
+                    btnClass="Success">
+                    Yes, please!
+                </Button>
+            </div>
         </Fragment>
     );
 };
