@@ -1,7 +1,26 @@
-.Posts {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    width: 80%;
-    margin: auto;
+.Blog header ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.Blog header ul li {
+    display: inline-block;
+    margin: 1em;
+}
+
+.Blog header ul a {
+    text-decoration: none;
+    color: #000;
+}
+
+.Blog header ul a:hover,
+.Blog header ul a:focus,
+.Blog header ul a.active {
+    color: rgb(22, 48, 196);
+}
+
+.Blog header ul a.active {
+    border-bottom: .2em solid rgb(22, 48, 196);
 }

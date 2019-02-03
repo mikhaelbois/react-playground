@@ -1,5 +1,8 @@
 import React from 'react';
 
+// Used to be able to access Router props
+// import { withRouter } from 'react-router-dom';
+
 import './Post.css';
 
 const post = (props) => (
@@ -11,4 +14,6 @@ const post = (props) => (
     </article>
 );
 
+// Used to be able to access Router props
+// export default withRouter(post);
 export default post;

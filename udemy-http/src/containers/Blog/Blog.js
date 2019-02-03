@@ -1,70 +1,90 @@
-import React, { Component } from 'react';
-// import axios from 'axios';
-import axiosInstance from '../../axios';
+import React, { Component, lazy, Suspense } from 'react';
+import { Route, Link, NavLink, Switch, Redirect } from 'react-router-dom';
 
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
+import Posts from './Posts/Posts';
+// import NewPost from './NewPost/NewPost';
+// import asyncComponent from '../../hoc/asyncComponent';
 import './Blog.css';
+
+// Lazy load a Component
+// const NewPost = asyncComponent(() => {
+//     return import('./NewPost/NewPost');
+// });
+
+// Official React way to lazy load | https://reactjs.org/docs/code-splitting.html
+const NewPost = lazy(() => import('./NewPost/NewPost'));
 
 class Blog extends Component {
     state = {
-        posts: [],
-        selectedPostId: null,
-        error: false
+        auth: true
     };
 
-    componentDidMount() {
-        axiosInstance.get('/posts').then(response => {
-            const posts = response.data.slice(0, 4);
-            const updatedposts = posts.map(post => {
-                return {...post, author: 'Max'};
-            });
-
-            this.setState({
-                posts: updatedposts
-            });
-        }).catch(error => {
-            this.setState({
-                error: true
-            });
-        });
-    }
-
-    postSelectedHandler = (id) => {
-        this.setState({
-            selectedPostId: id
-        });
-    }
-
     render () {
-        let posts = <p style={{textAlign: 'center', color: 'red'}}>Ooops! Something went wrong!</p>
-
-        if (!this.state.error) {
-            posts = this.state.posts.map(post => {
-                return <Post
-                    key={post.id}
-                    title={post.title}
-                    author={post.author}
-                    clicked={() => this.postSelectedHandler(post.id)}
-                />
-            });
-        }
-
         return (
-            <div>
-                <section className="Posts">
-                    {posts}
-                </section>
-                <section>
-                    <FullPost id={this.state.selectedPostId} />
-                </section>
-                <section>
-                    <NewPost />
-                </section>
+            <div className="Blog">
+                <header>
+                    <ul>
+                        <li>
+                            <NavLink
+                                to="/"
+                                exact
+                            >
+                                Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/posts/"
+                                exact
+                            >
+                                Posts
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={{
+                                // Always treated as an absolute path
+                                pathname: '/new-post',
+                                // Use this to create relative paths
+                                // pathname: this.props.match.url + '/new-post',
+                                hash: '#submit',
+                                search: '?quick-submit=true'
+                            }}>New post</NavLink>
+                        </li>
+                    </ul>
+                </header>
+
+                {/* Routes are parsed in order */}
+                <Switch>
+                    <Route
+                        path="/"
+                        exact
+                        render={() => <h1>Home</h1>}
+                    />
+
+                    <Route
+                        path="/posts"
+                        // exact
+                        component={Posts}
+                    />
+
+                    {/* this.state.auth ? <Route path="/new-post" component={NewPost} /> : null */}
+                    {this.state.auth ? (
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Route path="/new-post" render={props => <NewPost {...props} />} />
+                        </Suspense>
+                    ) : null}
+
+                    <Route
+                        path="/404"
+                        render={() => <h1>404 - Page Not Found</h1>}
+                    />
+
+                    <Redirect from="/" to="/404" />
+
+                </Switch>
             </div>
         );
-    }
-}
+    };
+};
 
 export default Blog;
