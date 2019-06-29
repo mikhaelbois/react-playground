@@ -1,0 +1,20 @@
+.Order {
+    text-align: center;
+    width: 100%;
+    max-width: 30em;
+    border: 1px solid #eee;
+    padding: 1em;
+    margin: 1em auto;
+}
+
+.Order span {
+    display: inline-block;
+    margin: 0 .25em;
+    padding: .5em;
+    border: 1px solid #eee;
+    border-radius: .3em;
+}
+
+.Order span label {
+    text-transform: capitalize;
+} 

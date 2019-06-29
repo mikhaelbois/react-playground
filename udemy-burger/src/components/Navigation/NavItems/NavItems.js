@@ -1,20 +1,27 @@
 import React from 'react';
-import classes from './NavItems.css';
 
 import NavItem from './NavItem/NavItem';
+import classes from './NavItems.css';
 
 const navItems = (props) => (
     <ul className={classes.NavItems}>
         <NavItem
             url="/"
-            active
+            exact={true}
         >
             Burger Builder
         </NavItem>
         <NavItem
-            url="/"
+            url="/checkout"
+            // exact={true}
         >
             Checkout
+        </NavItem>
+        <NavItem
+            url="/orders"
+            exact={true}
+        >
+            Orders
         </NavItem>
     </ul>
 );

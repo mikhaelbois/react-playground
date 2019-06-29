@@ -1,9 +1,5 @@
 .Layout {
+    position: relative;
+    top: 56px;
     margin: 0;
-}
-
-@media (min-width: 500px) {
-    .Layout {
-        margin: 56px 0 0;
-    }
 }
