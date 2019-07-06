@@ -1,14 +1,6 @@
 .ContactData {
-    text-align: center;
-}
-
-.ContactData label {
-    display: inline-block;
-    width: 5.5em;
-    text-align: right;
-}
-
-.ContactData input {
-    margin-bottom: 1em;
-    margin-left: 1em;
+    max-width: 20em;
+    padding: 1em;
+    margin: 1em auto;
+    border: 1px solid #ccc;
 }

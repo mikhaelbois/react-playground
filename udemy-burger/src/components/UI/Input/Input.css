@@ -1,0 +1,30 @@
+.Input {
+    width: 100%;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+
+.Input label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: .5em;
+}
+
+.InputElement {
+    border: 1px solid #ccc;
+    border-radius: 0;
+    background: #fff;
+    width: 100%;
+    padding: .25em;
+    font: inherit;
+    box-sizing: border-box;
+}
+
+.Invalid {
+    border-color: darkred;
+}
+
+.ValidationError {
+    color: darkred;
+    margin: 5px 0;
+} 
