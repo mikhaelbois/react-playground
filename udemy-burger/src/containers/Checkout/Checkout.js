@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Route } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
 import axios from '../../axios-orders';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
@@ -10,40 +12,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 class Checkout extends Component {
     state = {
         orderName: null,
-        ingredients: null,
-        price: 0,
         error: false
-    }
-
-    componentWillMount() {
-        // if (this.props.match.params.name && this.state.orderName !== this.props.match.params.orderName) {
-        //     this.setState({
-        //         orderName: this.props.match.params.name
-        //     }, () => {
-        //         axios.get(`/orders/${this.state.orderName}.json`).then(response => {
-        //             this.setState({
-        //                 ingredients: response.data.ingredients
-        //             });
-        //         });
-        //     });
-        // }
-
-        const query = new URLSearchParams(this.props.location.search);
-        const ingredients = {};
-        let price = 0;
-        
-        for (let param of query.entries()) {
-            if (param[0] === 'price') {
-                price = param[1];
-            } else {
-                ingredients[param[0]] = +param[1];
-            }
-        }
-        
-        this.setState({
-            ingredients: ingredients,
-            totalPrice: price
-        });
     }
 
     cancelPurchaseHandler = () => {
@@ -69,17 +38,17 @@ class Checkout extends Component {
             );
         }
 
-        if (this.state.ingredients) {
+        if (this.props.ingredients) {
             burger = (
                 <Fragment>
                     <CheckoutSummary
-                        ingredients={this.state.ingredients}
+                        ingredients={this.props.ingredients}
                         cancel={this.cancelPurchaseHandler}
                         continue={this.continuePurchaseHandler}
                     />
                     <Route
                         path={this.props.match.path + '/contact-data'}
-                        render={(props) => (<ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} />)}
+                        component={ContactData}
                     />
                 </Fragment>
             );
@@ -93,4 +62,10 @@ class Checkout extends Component {
     }
 }
 
-export default withErrorHandler(Checkout, axios);
+const mapStateToProps = (state) => {
+    return {
+        ingredients: state.ingredients
+    };
+};
+
+export default connect(mapStateToProps)(withErrorHandler(Checkout, axios));
