@@ -1,7 +1,17 @@
-import * as actionTypes from '../actions';
+// import * as actionTypes from '../actions/actions';
+import * as actionTypes from '../actions/actionTypes';
+import { updateObject } from '../utility';
 
 const initalState = {
     results: []
+};
+
+const deleteResult = (state, action) => {
+    const updatedArray = state.results.filter((result) => { // Returns new array
+        return result.id !== action.id
+    });
+
+    return updateObject(state, { results: updatedArray });
 };
 
 const reducer = (state = initalState, action) => {
@@ -15,15 +25,8 @@ const reducer = (state = initalState, action) => {
                     value: action.result // Combined reducers
                 })
             }
-        case actionTypes.DELETE_RESULT:
-            return {
-                ...state,
-                results: state.results.filter((result) => { // Returns new array
-                    return result.id !== action.id
-                })
-            }
-        default:
-            return state;
+        case actionTypes.DELETE_RESULT: return deleteResult(state, action);
+        default: return state;
     }
 };
 
