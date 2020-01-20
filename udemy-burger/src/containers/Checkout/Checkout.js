@@ -1,18 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
-import axios from '../../axios-orders';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Checkout extends Component {
     state = {
-        orderName: null,
-        error: false
+        orderName: null
     }
 
     cancelPurchaseHandler = () => {
@@ -24,23 +20,18 @@ class Checkout extends Component {
     }
 
     render() {
-        let burger = (
-            <p style={{ textAlign: 'center' }}>
-                Error while fetching the ingredients!
-            </p>
+        let summary = (
+            <Redirect to="/" />
         );
 
-        if (!this.state.error) {
-            burger = (
-                <div style={{ textAlign: 'center' }}>
-                    <Spinner />
-                </div>
-            );
-        }
-
         if (this.props.ingredients) {
-            burger = (
+            const purchasedRedirect = this.props.purchased ? (
+                <Redirect to="/" />
+            ) : null;
+
+            summary = (
                 <Fragment>
+                    {purchasedRedirect}
                     <CheckoutSummary
                         ingredients={this.props.ingredients}
                         cancel={this.cancelPurchaseHandler}
@@ -56,7 +47,7 @@ class Checkout extends Component {
 
         return (
             <Fragment>
-                {burger}
+                {summary}
             </Fragment>
         );
     }
@@ -64,8 +55,9 @@ class Checkout extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        ingredients: state.ingredients
+        ingredients: state.bub.ingredients,
+        purchased: state.chk.purchased
     };
 };
 
-export default connect(mapStateToProps)(withErrorHandler(Checkout, axios));
+export default connect(mapStateToProps)(Checkout);

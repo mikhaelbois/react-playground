@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // Redux
-import { createStore } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './store/reducer';
+import ordersReducer from './store/reducers/orders';
+import checkoutReducer from './store/reducers/checkout';
+import burgerBuilderReducer from './store/reducers/burgerBuilder';
+import thunk from 'redux-thunk';
 // /Redux
 
 import './index.css';
@@ -12,7 +15,23 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 
-const store = createStore(reducer);
+const rootReducer = combineReducers({
+    ord: ordersReducer,
+    chk: checkoutReducer,
+    bub: burgerBuilderReducer
+});
+
+// Redux DevTools without middleware
+// const store = createStore(
+//     rootReducer,
+//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// );
+
+// Redux DevTools with middleware
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(
+    applyMiddleware(thunk)
+));
 
 const app = (
     <Provider store={store}>
