@@ -5,29 +5,11 @@ import classes from './NavItems.css';
 
 const navItems = (props) => (
     <ul className={classes.NavItems}>
-        <NavItem
-            url="/"
-            exact={true}
-        >
-            Burger Builder
-        </NavItem>
+        <NavItem url="/" exact={true}>Burger Builder</NavItem>
         { props.isAuth ? <NavItem url="/orders" exact={true}>Orders</NavItem> : null }
-        {
-            props.isAuth
-            ?
-                <NavItem
-                    url="/logout"
-                    exact={true}
-                >
-                    Log Out
-                </NavItem>
-            :
-                <NavItem
-                    url="/auth"
-                    exact={true}
-                >
-                    Authenticate
-            </NavItem>
+        { props.isAuth
+            ? <NavItem url="/logout" exact={true}>Log Out</NavItem>
+            : <NavItem url="/auth" exact={true}>Authenticate</NavItem>
         }
     </ul>
 );
