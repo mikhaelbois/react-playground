@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import * as actions from './store/actions';
 
 import Layout from './hoc/Layout/Layout';
+import Spinner from './components/UI/Spinner/Spinner';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Orders/Orders';
-import Auth from './containers/Auth/Auth';
-import Logout from './containers/Auth/Logout/Logout';
+
+const Checkout = lazy(() => import('./containers/Checkout/Checkout'));
+const Orders = lazy(() => import('./containers/Orders/Orders'));
+const Auth = lazy(() => import('./containers/Auth/Auth'));
+const Logout = lazy(() => import('./containers/Auth/Logout/Logout'));
 
 class App extends Component {
     componentDidMount() {
@@ -17,21 +19,32 @@ class App extends Component {
     }
 
     render() {
+        const loading = (
+            <div style={{ textAlign: 'center' }}>
+                <Spinner />
+            </div>
+        );
+
         let routes = (
             <Switch>
-                <Route path="/auth" component={Auth} />
                 <Route path="/" exact component={BurgerBuilder} />
+                <Suspense fallback={loading}>
+                    <Route path="/auth" component={Auth} />
+                </Suspense>
                 <Redirect to="/" />
             </Switch>
-        )
+        );
 
         if (this.props.isAuthenticated) {
             routes = (
                 <Switch>
-                    <Route path="/orders" component={Orders} />
-                    <Route path="/checkout" component={Checkout} />
-                    <Route path="/logout" component={Logout} />
                     <Route path="/" exact component={BurgerBuilder} />
+                    <Suspense fallback={loading}>
+                        <Route path="/orders" component={Orders} />
+                        <Route path="/checkout" component={Checkout} />
+                        <Route path="/auth" component={Auth} />
+                        <Route path="/logout" component={Logout} />
+                    </Suspense>
                     <Redirect to="/" />
                 </Switch>
             );

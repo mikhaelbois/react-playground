@@ -9,6 +9,7 @@ import Input from '../../../components/UI/Input/Input';
 import classes from './ContactData.css';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import { updateObject, checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
     state = {
@@ -116,41 +117,19 @@ class ContactData extends Component {
         this.props.onOrderBuger(order, this.props.token);
     }
 
-    checkValidity(value, rules) {
-        let isValid = true;
-
-        if (rules) {
-            if (rules.required) {
-                isValid = value.trim() !== '' && isValid;
-            }
-
-            if (rules.minLength) {
-                isValid = value.length >= rules.minLength && isValid;
-            }
-
-            if (rules.maxLength) {
-                isValid = value.length <= rules.maxLength && isValid;
-            }
-        }
-
-        return isValid;
-    }
-
     inputChangedHandler = (event, inputId) => {
-        const updatedOrderForm = {
-            ...this.state.orderForm
-        };
-        const updatedFormElement = {
-            ...updatedOrderForm[inputId]
-        };
+        const updatedFormElement = updateObject(
+            this.state.orderForm[inputId], {
+                value: event.target.value,
+                touched: true,
+                valid: checkValidity(event.target.value, this.state.orderForm[inputId].validation)
+            }
+        );
 
-        updatedFormElement.value = event.target.value;
-        updatedFormElement.touched = true;
 
-        // Form Element Validation
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
-
-        updatedOrderForm[inputId] = updatedFormElement;
+        const updatedOrderForm = updateObject(this.state.orderForm, {
+            [inputId]: updatedFormElement
+        });
 
         let formIsValid = true;
         for (const inputIdentifier in updatedOrderForm) {

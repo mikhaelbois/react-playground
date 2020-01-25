@@ -34,6 +34,8 @@ class Layout extends Component {
                 <SideDrawer
                     opened={this.state.drawerOpened}
                     close={this.closeSideDrawerHandler}
+                    isAuth={this.props.isAuthenticated}
+                    sideClose={this.toggleSideDrawerHandler}
                 />
                 <main className={classes.Layout}>
                     {this.props.children}
