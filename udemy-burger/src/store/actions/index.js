@@ -14,3 +14,10 @@ export {
     initIngredients,
     fetchIngredientsFailed
 } from './burgerBuilder';
+
+export {
+    auth,
+    logout,
+    setAuthRedirect,
+    authCheckState
+} from './auth';

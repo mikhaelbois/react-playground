@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import ordersReducer from './store/reducers/orders';
 import checkoutReducer from './store/reducers/checkout';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
+import authReducer from './store/reducers/auth';
 import thunk from 'redux-thunk';
 // /Redux
 
@@ -18,7 +19,8 @@ import { BrowserRouter } from 'react-router-dom';
 const rootReducer = combineReducers({
     ord: ordersReducer,
     chk: checkoutReducer,
-    bub: burgerBuilderReducer
+    bub: burgerBuilderReducer,
+    auth: authReducer
 });
 
 // Redux DevTools without middleware
