@@ -1,15 +1,21 @@
 export {
     fetchOrders,
-    fetchOrdersStart
+    fetchOrdersStart,
+    fetchOrdersSuccess,
+    fetchOrdersFailed
 } from './orders';
 
 export {
     purchaseInit,
-    purchaseBurger
+    purchaseBurger,
+    purchaseBurgerStart,
+    purchaseBurgerSuccess,
+    purchaseBurgerFailed
 } from './checkout';
 
 export {
     addIngredient,
+    setIngredients,
     removeIngredient,
     initIngredients,
     fetchIngredientsFailed
@@ -18,6 +24,11 @@ export {
 export {
     auth,
     logout,
+    logoutSucceed,
     setAuthRedirect,
-    authCheckState
+    authCheckState,
+    authStart,
+    authSuccess,
+    authFailed,
+    checkAuthTimeout
 } from './auth';
