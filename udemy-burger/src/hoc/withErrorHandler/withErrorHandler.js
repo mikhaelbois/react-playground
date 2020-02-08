@@ -1,57 +1,50 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 import Modal from '../../components/UI/Modal/Modal';
+import useHttpErrorHandler from '../../hooks/http-error-handler';
 
 const withErrorHandler = (WrappedComponent, axios) => {
-    return class extends Component {
-        state = {
-            error: null
-        }
+    return props => {
+        // const [error, setError] = useState(null);
 
-        componentWillMount() {
-            this.reqInterceptor = axios.interceptors.request.use(req => {
-                this.setState({
-                    error: null
-                });
+        // const reqInterceptor = axios.interceptors.request.use(req => {
+        //     setError(null);
 
-                return req;
-            });
+        //     return req;
+        // });
 
-            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
-                this.setState({
-                    error: error
-                });
-            });
-        }
+        // const resInterceptor = axios.interceptors.response.use(res => res, errorObj => {
+        //     setError(errorObj);
+        // });
 
-        componentWillUnmount() {
-            // Disconnect the interceptors when component is not in use
-            axios.interceptors.request.eject(this.reqInterceptor);
-            axios.interceptors.response.eject(this.resInterceptor);
-        }
+        // useEffect(() => {
+        //     return () => {
+        //         // Disconnect the interceptors when component is not in use
+        //         axios.interceptors.request.eject(reqInterceptor);
+        //         axios.interceptors.response.eject(resInterceptor);
+        //     }
+        // }, [reqInterceptor, resInterceptor]);
 
-        closeModalHandler = () => {
-            this.setState({
-                error: null
-            });
-        }
-        
-        render() {
-            return (
-                <Fragment>
-                    <Modal
-                        show={this.state.error}
-                        modalClosed={this.closeModalHandler}>
-                        <h1>Ooops! Something went wrong!</h1>
-                        <p>{this.state.error ? this.state.error.message : null}</p>
-                    </Modal>
+        // const closeModalHandler = () => {
+        //     setError(null);
+        // }
 
-                    <WrappedComponent
-                        {...this.props}
-                    />
-                </Fragment>
-            );
-        };
+        const [error, closeModalHandler] = useHttpErrorHandler(axios);
+
+        return (
+            <Fragment>
+                <Modal
+                    show={error}
+                    modalClosed={closeModalHandler}>
+                    <h1>Ooops! Something went wrong!</h1>
+                    <p>{error ? error.message : null}</p>
+                </Modal>
+
+                <WrappedComponent
+                    {...props}
+                />
+            </Fragment>
+        );
     }
 }
 

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
@@ -8,41 +8,39 @@ import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
-class Orders extends Component {
-    componentDidMount() {
-        this.props.onFetchOrders(
-            this.props.token,
-            this.props.userId
+const orders = props => {
+    useEffect(() => {
+        props.onFetchOrders(
+            props.token,
+            props.userId
         );
-    }
+    }, [props.onFetchOrders, props.token, props.userId]);
 
-    render() {
-        let orders = (
-            <div style={{ textAlign: 'center' }}>
-                <Spinner />
-            </div>
-        );
+    let orders = (
+        <div style={{ textAlign: 'center' }}>
+            <Spinner />
+        </div>
+    );
 
-        if (this.props.ordersList) {
-            orders = (
-                <Fragment>
-                    {this.props.ordersList.map((order) => (
-                        <Order
-                            key={order.id}
-                            ingredients={order.ingredients}
-                            price={+order.price}
-                        />
-                    ))}
-                </Fragment>
-            );
-        }
-
-        return (
+    if (props.ordersList) {
+        orders = (
             <Fragment>
-                {orders}
+                {props.ordersList.map((order) => (
+                    <Order
+                        key={order.id}
+                        ingredients={order.ingredients}
+                        price={+order.price}
+                    />
+                ))}
             </Fragment>
         );
     }
+
+    return (
+        <Fragment>
+            {orders}
+        </Fragment>
+    );
 }
 
 const mapStateToProps = (state) => {
@@ -61,4 +59,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(orders, axios));
